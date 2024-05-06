@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import Title from '../Title';
+import Title from '../Title'; 
 import CartColumns from './CartColumns';
 import EmptyCart from './EmptyCart';
-import { ProductConsumer } from '../../context';
+import {ProductConsumer} from '../../context';
+import CartList from './CartList';
+import CartTotals from './CartTotals'
 
 export default class Cart extends Component {
   render() {
@@ -10,22 +12,24 @@ export default class Cart extends Component {
       <div>
         <ProductConsumer>
           {value => {
+            console.log(value);
             const {cart} = value;
-            if(cart.length>0){
-              return(
+            console.log(cart);
+            if(cart && cart.length > 0){
+              return (
                 <React.Fragment>
                 <Title name="your" title="cart"></Title>
-                <CartColumns></CartColumns>
+                <CartColumns />
+                <CartList value={value}/>
+                <CartTotals value={value} />
                 </React.Fragment>
               );
             } else {
-              return <EmptyCart></EmptyCart>;
+              return  <EmptyCart />
             }
           }}
-        </ProductConsumer>
-
-        <EmptyCart></EmptyCart>
+        </ProductConsumer> 
       </div>
     )
-  }
+   }
 }
