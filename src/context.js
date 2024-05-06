@@ -6,7 +6,7 @@ const ProductContext = React.createContext();
     state = {
         products: [],
         detailProduct: detailProduct,
-        cart: [],
+        cart: storeProducts,
         modalOpen: false,
         modalProduct: detailProduct,
         cartSubTotal: 0,
@@ -40,14 +40,15 @@ const ProductContext = React.createContext();
     }
     addToCart = id =>{
         let tempProducts = [...this.state.products];
-        const index = tempProducts.indexOf(this.getItem(id));
+        const index = tempProducts.findIndex(product => product.id === id);
         const product = tempProducts[index];
         product.inCart = true;
         product.count = 1;
         const price = product.price;
         product.total = price;
-        this.setState(()=> {
-            return { products:tempProducts,cart:[...this.state.cart] };
+        this.setState(prevState => {
+            return { products: tempProducts,
+                cart:[...prevState.cart, product] };
         });
 
     };
